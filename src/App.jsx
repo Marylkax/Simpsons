@@ -39,7 +39,12 @@ class App extends Component {
     this.setState({ simpsons });
   };
 
+  onSearchInput = (e) => {
+    this.setState({ searchInput:e.target.value });
+  };
   render() {
+    console.log(this.state);
+
     const { simpsons } = this.state;
 
     if (!simpsons) return <Loading />;
@@ -56,6 +61,7 @@ class App extends Component {
       <>
         <h1>Total no of liked chars #{total}</h1>
         <Simpsons
+        onSearchInput={this.onSearchInput}
           simpsons={simpsons}
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
