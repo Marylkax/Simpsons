@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import Character from "./Character";
-import Search from "./Search";
+import Controls from "./Controls";
 
 class Simpsons extends Component {
   render() {
-    const { simpsons, onDelete, onLikeToggle, onSearchInput } = this.props;
+    const { simpsons, onDelete, onLikeToggle, onSearchInput, onAlphabetList } = this.props;
 
     return (
       <>
-      <Search onSearchInput={onSearchInput}/>
+      <Controls onSearchInput={onSearchInput} onAlphabetList={onAlphabetList}/>
         {simpsons.map((item, index) => {
           return (
             <Character

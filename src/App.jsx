@@ -43,10 +43,14 @@ class App extends Component {
     this.setState({ searchInput:e.target.value });
   };
 
+  onAlphabetList = (e) => {
+    this.setState ({alphabetList: e.target.value })
+  };
+
   render() {
      console.log(this.state);
 
-    const { simpsons, searchInput } = this.state;
+    const { simpsons, searchInput, alphabetList } = this.state;
     //  console.log(simpsons[0].character);
 
     if (!simpsons) return <Loading />;
@@ -69,6 +73,20 @@ if (searchInput){
       return true;
     }
    }); }
+   if (alphabetList === 'asc'){
+    filteredList.sort((itemOne, itemTwo) => {
+      if (itemOne.character > itemTwo.character) return 1;
+      if (itemOne.character < itemTwo.character) return -1;
+    } )
+   } else if (alphabetList === 'desc'){
+    filteredList.sort((itemOne, itemTwo) => {
+      if (itemOne.character < itemTwo.character) return 1;
+      if (itemOne.character > itemTwo.character) return -1;
+    } 
+
+
+    )
+   }
  
 // not manipulating original data, modify the copy
 
@@ -80,6 +98,7 @@ if (searchInput){
           simpsons={filteredList}
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
+        onAlphabetList={this.onAlphabetList}
         />
       </>
     );
