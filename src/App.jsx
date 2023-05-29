@@ -5,7 +5,7 @@ import Simpsons from "./components/Simpsons";
 import "./App.css";
 
 class App extends Component {
-  state = {};
+  state = { searchInput: "" };
 
   async componentDidMount() {
     const { data } = await axios.get(
@@ -42,10 +42,12 @@ class App extends Component {
   onSearchInput = (e) => {
     this.setState({ searchInput:e.target.value });
   };
-  render() {
-    console.log(this.state);
 
-    const { simpsons } = this.state;
+  render() {
+     console.log(this.state);
+
+    const { simpsons, searchInput } = this.state;
+    //  console.log(simpsons[0].character);
 
     if (!simpsons) return <Loading />;
 
@@ -57,12 +59,25 @@ class App extends Component {
       if (char.liked) total++;
     });
 
+let filteredList = [...simpsons];
+
+if (searchInput){
+   filteredList = filteredList.filter((item)=> {
+   console.log(item.character);
+    if
+   (item.character.toLowerCase().includes(searchInput.toLowerCase())) {
+      return true;
+    }
+   }); }
+ 
+// not manipulating original data, modify the copy
+
     return (
       <>
         <h1>Total no of liked chars #{total}</h1>
         <Simpsons
         onSearchInput={this.onSearchInput}
-          simpsons={simpsons}
+          simpsons={filteredList}
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
         />
