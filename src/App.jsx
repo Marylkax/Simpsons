@@ -56,8 +56,10 @@ class App extends Component {
   //  this.onInitialise();
    this.setState({reset : true});
   }
-  //document.getElementbyId("inputbox").reset;
-
+  //document.getElementbyId("inputbox").reset; seeing if anything would work using a dom manipulation in react, as the react reset method wasn't working
+  // Have tried a few different ways of doing the reset button. Through having an onlick event in controls component that causes the intial api request to be pulled, or by trying to render the original data simpsons, rather than the filtered copy. 
+  //Have also tried to clear the inputs for search and sort methods. This sends down a blank input to the search and sort in controls. However then the user is unable to use the search/sort again! This currently breaks when using, please refresh page to start over
+  
   render() {
      console.log(this.state);
 
