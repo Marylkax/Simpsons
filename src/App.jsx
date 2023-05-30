@@ -5,9 +5,9 @@ import Simpsons from "./components/Simpsons";
 import "./App.css";
 
 class App extends Component {
-  state = { searchInput: "" };
+  state = {};
 
-  async componentDidMount() {
+  async onInitialise() {
     const { data } = await axios.get(
       `https://thesimpsonsquoteapi.glitch.me/quotes?count=10`
     );
@@ -18,6 +18,11 @@ class App extends Component {
     });
 
     this.setState({ simpsons: data });
+  }
+
+  componentDidMount = () => {
+    this.onInitialise()
+
   }
 
   onLikeToggle = (id) => {
@@ -40,17 +45,23 @@ class App extends Component {
   };
 
   onSearchInput = (e) => {
-    this.setState({ searchInput:e.target.value });
+    this.setState({ searchInput: e.target.value });
   };
 
   onAlphabetList = (e) => {
     this.setState ({alphabetList: e.target.value })
   };
+  
+  onReset = (e) => {
+  //  this.onInitialise();
+   this.setState({reset : true});
+  }
+  //document.getElementbyId("inputbox").reset;
 
   render() {
      console.log(this.state);
 
-    const { simpsons, searchInput, alphabetList } = this.state;
+    const { simpsons, searchInput, alphabetList, reset } = this.state;
     //  console.log(simpsons[0].character);
 
     if (!simpsons) return <Loading />;
@@ -63,42 +74,43 @@ class App extends Component {
       if (char.liked) total++;
     });
 
-let filteredList = [...simpsons];
+    let filteredList = [...simpsons];
 
-if (searchInput){
-   filteredList = filteredList.filter((item)=> {
-   console.log(item.character);
-    if
-   (item.character.toLowerCase().includes(searchInput.toLowerCase())) {
-      return true;
-    }
-   }); }
-   if (alphabetList === 'asc'){
-    filteredList.sort((itemOne, itemTwo) => {
-      if (itemOne.character > itemTwo.character) return 1;
-      if (itemOne.character < itemTwo.character) return -1;
-    } )
-   } else if (alphabetList === 'desc'){
-    filteredList.sort((itemOne, itemTwo) => {
-      if (itemOne.character < itemTwo.character) return 1;
-      if (itemOne.character > itemTwo.character) return -1;
-    } 
+    if (searchInput){
+      filteredList = filteredList.filter((item)=> {
+      console.log(item.character);
+        if
+      (item.character.toLowerCase().includes(searchInput.toLowerCase())) {
+          return true;
+        }
+      }); }
 
-
-    )
-   }
- 
-// not manipulating original data, modify the copy
+      if (alphabetList === 'asc'){
+        filteredList.sort((itemOne, itemTwo) => {
+          if (itemOne.character > itemTwo.character) return 1;
+          if (itemOne.character < itemTwo.character) return -1;
+        })
+      } else if (alphabetList === 'desc'){
+        filteredList.sort((itemOne, itemTwo) => {
+          if (itemOne.character < itemTwo.character) return 1;
+          if (itemOne.character > itemTwo.character) return -1;
+        })
+      }
+    
+    // not manipulating original data, modify the copy
 
     return (
       <>
         <h1>Total no of liked chars #{total}</h1>
         <Simpsons
-        onSearchInput={this.onSearchInput}
-          simpsons={filteredList}
+          searchInput={reset ? "" : searchInput}
+          alphabetList={reset ? "" : alphabetList}
+          onReset={this.onReset}
+          onSearchInput={this.onSearchInput}
+          simpsons={reset ? simpsons : filteredList}
           onDelete={this.onDelete}
           onLikeToggle={this.onLikeToggle}
-        onAlphabetList={this.onAlphabetList}
+          onAlphabetList={this.onAlphabetList}
         />
       </>
     );

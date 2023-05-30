@@ -4,11 +4,17 @@ import Controls from "./Controls";
 
 class Simpsons extends Component {
   render() {
-    const { simpsons, onDelete, onLikeToggle, onSearchInput, onAlphabetList } = this.props;
+    const { simpsons, onDelete, onLikeToggle, onSearchInput, onAlphabetList, onReset, searchInput, alphabetList } = this.props;
 
     return (
       <>
-      <Controls onSearchInput={onSearchInput} onAlphabetList={onAlphabetList}/>
+      <Controls
+        onSearchInput={onSearchInput}
+        onAlphabetList={onAlphabetList}
+        onReset={onReset}
+        searchInput={searchInput}
+        alphabetList={alphabetList}
+        />
         {simpsons.map((item, index) => {
           return (
             <Character
